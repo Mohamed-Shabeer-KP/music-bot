@@ -26,17 +26,17 @@ from discord.ext import commands
 import ctypes
 import ctypes.util
 
-print("ctypes - Find opus:")
-a = ctypes.util.find_library('opus')
-print(a)
+# print("ctypes - Find opus:")
+# a = ctypes.util.find_library('opus')
+# print(a)
  
-print("Discord - Load Opus:")
-b = discord.opus.load_opus(a)
-print(b)
+# print("Discord - Load Opus:")
+# b = discord.opus.load_opus(a)
+# print(b)
  
-print("Discord - Is loaded:")
-c = discord.opus.is_loaded()
-print(c)
+# print("Discord - Is loaded:")
+# c = discord.opus.is_loaded()
+# print(c)
 
 token = os.getenv("DISCORD_BOT_TOKEN")
 
@@ -523,7 +523,7 @@ class Music(commands.Cog):
                 raise commands.CommandError('Bot is already in a voice channel.')
 
 
-bot = commands.Bot('music.', description='Yet another music bot.')
+bot = commands.Bot('.', description='Yet another music bot.')
 bot.add_cog(Music(bot))
 
 

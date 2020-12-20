@@ -11,8 +11,8 @@ async def on_ready() :
     print("I am online")
 
 @client.command()
-async def hi(ctx) :
-    await ctx.send(f"Trax Uyir aaanu <3")
+async def uyir(ctx,message) :
+    await ctx.send(f'{0.author} Uyir aaanu <3'.format(message))
 
 @client.command(name="whoami")
 async def whoami(ctx) :

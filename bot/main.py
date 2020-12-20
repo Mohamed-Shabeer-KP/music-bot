@@ -215,7 +215,7 @@ class VoiceState:
         self.songs = SongQueue()
 
         self._loop = False
-        self._volume = .03
+        self._volume = .05
         self.skip_votes = set()
 
         self.audio_player = bot.loop.create_task(self.audio_player_task())
@@ -398,7 +398,7 @@ class Music(commands.Cog):
 
         ctx.voice_state.songs.clear()
 
-        if not ctx.voice_state.is_playing:
+        if  ctx.voice_state.is_playing:
             ctx.voice_state.voice.stop()
             await ctx.message.add_reaction('⏹')
 

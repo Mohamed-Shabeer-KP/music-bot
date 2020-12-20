@@ -2,25 +2,20 @@ import discord
 from discord.ext import commands
 import os
 
-client = commands.Bot(command_prefix=".")
 token = os.getenv("DISCORD_BOT_TOKEN")
 
-@client.event
-async def on_ready() :
-    await client.change_presence(status = discord.Status.idle, activity = discord.Game("Listening to .help"))
-    print("I am online")
+description = '''An example bot to showcase the discord.ext.commands extension module.'''
+intents = discord.Intents.default()
+intents.members = True
 
-@client.command()
-async def uyir(ctx,message) :
-    await ctx.send(f"Trax Uyir aaanu <3")
+bot = commands.Bot(command_prefix='.', description=description, intents=intents)
 
-@client.command(name="whoami")
-async def whoami(ctx) :
-    await ctx.send(f"You are {ctx.message.author.name}")
+@bot.event
+async def on_ready():
+    print('We have logged in as {0.user}'.format(bot))
 
-@client.command()
-async def clear(ctx, amount=3) :
-    await ctx.channel.purge(limit=amount)
+@bot.command()
+async def uyir(ctx, msg:str):
+    await ctx.send('{0} ഉയിർ ആണ് ❤'.format(msg))
 
-
-client.run(token)
+bot.run(token)

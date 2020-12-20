@@ -10,6 +10,21 @@ Python 3.5+
 pip install -U discord.py pynacl youtube-dl
 You also need FFmpeg in your PATH environment variable or the FFmpeg.exe binary in your bot's directory on Windows.
 """
+import ctypes
+import ctypes.util
+
+print("ctypes - Find opus:")
+a = ctypes.util.find_library('opus')
+print(a)
+ 
+print("Discord - Load Opus:")
+b = discord.opus.load_opus(a)
+print(b)
+ 
+print("Discord - Is loaded:")
+c = discord.opus.is_loaded()
+print(c)
+
 
 import asyncio
 import functools

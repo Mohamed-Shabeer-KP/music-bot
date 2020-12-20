@@ -12,7 +12,7 @@ async def on_ready() :
 
 @client.command()
 async def hi(ctx) :
-    await ctx.send(f"Illuminati Uyir aaanu <3")
+    await ctx.send(f"Trax Uyir aaanu <3")
 
 @client.command(name="whoami")
 async def whoami(ctx) :

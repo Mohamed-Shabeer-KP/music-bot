@@ -12,7 +12,7 @@ async def on_ready() :
 
 @client.command()
 async def uyir(ctx,message) :
-    await ctx.send(f'{0.author} Uyir aaanu <3'.format(message))
+    await ctx.send(f"Trax Uyir aaanu <3")
 
 @client.command(name="whoami")
 async def whoami(ctx) :

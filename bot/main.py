@@ -11,8 +11,8 @@ async def on_ready() :
     print("I am online")
 
 @client.command()
-async def ping(ctx) :
-    await ctx.send(f"🏓 Pong with {str(round(client.latency, 2))}")
+async def hi(ctx) :
+    await ctx.send(f"Illuminati Uyir aaanu <3")
 
 @client.command(name="whoami")
 async def whoami(ctx) :

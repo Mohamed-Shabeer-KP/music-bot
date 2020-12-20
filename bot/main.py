@@ -10,6 +10,19 @@ Python 3.5+
 pip install -U discord.py pynacl youtube-dl
 You also need FFmpeg in your PATH environment variable or the FFmpeg.exe binary in your bot's directory on Windows.
 """
+
+import asyncio
+import functools
+import itertools
+import math
+import random
+import os
+
+import discord
+import youtube_dl
+from async_timeout import timeout
+from discord.ext import commands
+
 import ctypes
 import ctypes.util
 
@@ -24,19 +37,6 @@ print(b)
 print("Discord - Is loaded:")
 c = discord.opus.is_loaded()
 print(c)
-
-
-import asyncio
-import functools
-import itertools
-import math
-import random
-import os
-
-import discord
-import youtube_dl
-from async_timeout import timeout
-from discord.ext import commands
 
 token = os.getenv("DISCORD_BOT_TOKEN")
 

@@ -539,7 +539,7 @@ class Music(commands.Cog):
                 raise commands.CommandError('സുഹൃത്തേ ഞാൻ വേറൊരു സ്റ്റേജിൽ പാടി കൊണ്ടിരിക്കുവാണ്')
 
 
-bot = commands.Bot(',', description='Yet another music bot.')
+bot = commands.Bot('.', description='Yet another music bot.')
 bot.add_cog(Music(bot))
 
 

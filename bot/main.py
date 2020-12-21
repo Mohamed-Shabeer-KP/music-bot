@@ -312,7 +312,7 @@ class Music(commands.Cog):
         ctx.voice_state = self.get_voice_state(ctx)
 
     async def cog_command_error(self, ctx: commands.Context, error: commands.CommandError):
-        await ctx.send('An error occurred: {}'.format(str(error)))
+        await ctx.send('{0}'.format(str(error)))
 
     @commands.command(name='join', invoke_without_subcommand=True)
     async def _join(self, ctx: commands.Context):
@@ -349,7 +349,7 @@ class Music(commands.Cog):
         """Clears the queue and leaves the voice channel."""
 
         if not ctx.voice_state.voice:
-            return await ctx.send('Not connected to any voice channel.')
+            return await ctx.send('സുഹൃത്തേ ഞാൻ ഇപ്പോൾ ഒരു സ്റ്റേജിലും പാടുനില്ല')
 
         await ctx.voice_state.stop()
         del self.voice_states[ctx.guild.id]
@@ -359,13 +359,13 @@ class Music(commands.Cog):
         """Sets the volume of the player."""
 
         if not ctx.voice_state.is_playing:
-            return await ctx.send('Nothing being played at the moment.')
+            return await ctx.send('സുഹൃത്തേ ഞാൻ ഇപ്പോൾ ഒരു പാട്ടും പാടുനില്ല')
 
-        if 0 > volume > 100:
-            return await ctx.send('Volume must be between 0 and 100')
-
-        ctx.voice_state.volume = volume / 100
-        await ctx.send('Volume of the player set to {}%'.format(volume))
+        if 0 > volume or volume > 100:
+            return await ctx.send('സുഹൃത്തേ ശബ്ദത്തിന്റെ അളവ് 0 ത്തിനും 100 നും ഇടയിൽ ആവണം')
+        else:
+            ctx.voice_state.volume = volume / 100
+            await ctx.send('വോളിയം {} മാറ്റിയിട്ടുണ്ട് സുഹൃത്തേ%'.format(volume))
 
     @commands.command(name='now', aliases=['current', 'playing'])
     async def _now(self, ctx: commands.Context):
@@ -373,7 +373,7 @@ class Music(commands.Cog):
 
         await ctx.send(embed=ctx.voice_state.current.create_embed())
 
-    @commands.command(name='pause')
+    @commands.command(name='pause',aliases=['p'])
     @commands.has_permissions(manage_guild=True)
     async def _pause(self, ctx: commands.Context):
         """Pauses the currently playing song."""
@@ -382,7 +382,7 @@ class Music(commands.Cog):
             ctx.voice_state.voice.pause()
             await ctx.message.add_reaction('⏯')
 
-    @commands.command(name='resume')
+    @commands.command(name='resume',aliases=['r'])
     @commands.has_permissions(manage_guild=True)
     async def _resume(self, ctx: commands.Context):
         """Resumes a currently paused song."""
@@ -402,14 +402,14 @@ class Music(commands.Cog):
             ctx.voice_state.voice.stop()
             await ctx.message.add_reaction('⏹')
 
-    @commands.command(name='skip')
+    @commands.command(name='skip',aliases=['next','n','s'])
     async def _skip(self, ctx: commands.Context):
         """Vote to skip a song. The requester can automatically skip.
         3 skip votes are needed for the song to be skipped.
         """
 
         if not ctx.voice_state.is_playing:
-            return await ctx.send('Not playing any music right now...')
+            return await ctx.send('സുഹൃത്തേ നിലവിൽ ഞാൻ ഒരു ഗാനവും പാടുനില്ല')
 
         voter = ctx.message.author
         if voter == ctx.voice_state.current.requester:
@@ -437,7 +437,7 @@ class Music(commands.Cog):
         """
 
         if len(ctx.voice_state.songs) == 0:
-            return await ctx.send('Empty queue.')
+            return await ctx.send('പാടാൻ ഉള്ള ലിസ്റ്റിൽ ഒന്നും ഇല്ല സുഹൃത്തേ ')
 
         items_per_page = 10
         pages = math.ceil(len(ctx.voice_state.songs) / items_per_page)
@@ -458,7 +458,7 @@ class Music(commands.Cog):
         """Shuffles the queue."""
 
         if len(ctx.voice_state.songs) == 0:
-            return await ctx.send('Empty queue.')
+            return await ctx.send('പാടാൻ ഉള്ള ലിസ്റ്റിൽ ഒന്നും ഇല്ല സുഹൃത്തേ ')
 
         ctx.voice_state.songs.shuffle()
         await ctx.message.add_reaction('✅')
@@ -468,7 +468,7 @@ class Music(commands.Cog):
         """Removes a song from the queue at a given index."""
 
         if len(ctx.voice_state.songs) == 0:
-            return await ctx.send('Empty queue.')
+            return await ctx.send('പാടാൻ ഉള്ള ലിസ്റ്റിൽ ഒന്നും ഇല്ല സുഹൃത്തേ ')
 
         ctx.voice_state.songs.remove(index - 1)
         await ctx.message.add_reaction('✅')
@@ -481,14 +481,14 @@ class Music(commands.Cog):
         """
 
         if not ctx.voice_state.is_playing:
-            return await ctx.send('Nothing being played at the moment.')
+            return await ctx.send('സുഹൃത്തേ നിലവിൽ ഞാൻ ഒരു ഗാനവും പാടുനില്ല')
 
         # Inverse boolean value to loop and unloop.
         ctx.voice_state.loop = not ctx.voice_state.loop
         await ctx.message.add_reaction('✅')
 
-    @commands.command(name='play')
-    async def _play(self, ctx: commands.Context, *, search: str):
+    @commands.command(name='play',aliases=['p'])
+    async def _play(self, ctx: commands.Context, *, search: str = 'default_no_song'):
         """Plays a song.
 
         If there are songs in the queue, this will be queued until the
@@ -497,12 +497,28 @@ class Music(commands.Cog):
         This command automatically searches from various sites if no URL is provided.
         A list of these sites can be found here: https://rg3.github.io/youtube-dl/supportedsites.html
         """
-
+        
         if not ctx.voice_state.voice:
             await ctx.invoke(self._join)
 
         async with ctx.typing():
             try:
+                if search == 'default_no_song':
+                    raise commands.CommandError('പ്ലേയ് കു ശേഷം പാട്ടിന്റെ പേരോ ലിങ്കോ ഒന്നു കൊടുക്കണേ സുഹൃത്തേ')
+                
+                switcher = { 
+                    '1': "https://www.youtube.com/watch?v=x1cq1dDpKZM&list=RDx1cq1dDpKZM&index=1&ab_channel=Millenniumcomedy", 
+                    '2': "https://www.youtube.com/watch?v=FPXOdrhBN2Q&list=RDx1cq1dDpKZM&index=2&ab_channel=Millenniumcomedy", 
+                    '3': "https://www.youtube.com/watch?v=xUNg_6kxGT8&list=RDx1cq1dDpKZM&index=3&ab_channel=SudhiRavi",
+                    '4': "https://www.youtube.com/watch?v=lpwvUVibs80&list=RDx1cq1dDpKZM&index=4&ab_channel=RakeshKrishna",
+                    '5': "https://www.youtube.com/watch?v=BTMRXYurVB4&list=RDx1cq1dDpKZM&index=5&ab_channel=FreddyCs",
+                    '6': "https://www.youtube.com/watch?v=h3kCOleQblw&list=RDx1cq1dDpKZM&index=6&ab_channel=ambalapuzhakannan",
+                    '7': "https://www.youtube.com/watch?v=KoizNlkPZgI&list=RDx1cq1dDpKZM&index=7&ab_channel=RenyAdoor",
+                    '8': "https://www.youtube.com/watch?v=vIIxK87CQUg&list=RDx1cq1dDpKZM&index=8&ab_channel=CINEMAWORLD"
+                    } 
+                
+                search = switcher.get(search, search) 
+
                 source = await YTDLSource.create_source(ctx, search, loop=self.bot.loop)
             except YTDLError as e:
                 await ctx.send('An error occurred while processing this request: {}'.format(str(e)))
@@ -510,20 +526,20 @@ class Music(commands.Cog):
                 song = Song(source)
 
                 await ctx.voice_state.songs.put(song)
-                await ctx.send('Enqueued {}'.format(str(source)))
+                await ctx.send('ഞാൻ പാടുന്നു {}'.format(str(source)))
 
     @_join.before_invoke
     @_play.before_invoke
     async def ensure_voice_state(self, ctx: commands.Context):
         if not ctx.author.voice or not ctx.author.voice.channel:
-            raise commands.CommandError('You are not connected to any voice channel.')
+            raise commands.CommandError('വോയിസ് ചാനലിൽ കേറി ഇരിക്ക് .എന്നാലേ തങ്കപ്പന്റെ പാട്ടു കേൾക്കാൻ പറ്റൂ')
 
         if ctx.voice_client:
             if ctx.voice_client.channel != ctx.author.voice.channel:
-                raise commands.CommandError('Bot is already in a voice channel.')
+                raise commands.CommandError('സുഹൃത്തേ ഞാൻ വേറൊരു സ്റ്റേജിൽ പാടി കൊണ്ടിരിക്കുവാണ്')
 
 
-bot = commands.Bot('.', description='Yet another music bot.')
+bot = commands.Bot(',', description='Yet another music bot.')
 bot.add_cog(Music(bot))
 
 

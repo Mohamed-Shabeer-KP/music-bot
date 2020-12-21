@@ -365,7 +365,7 @@ class Music(commands.Cog):
             return await ctx.send('സുഹൃത്തേ ശബ്ദത്തിന്റെ അളവ് 0 ത്തിനും 100 നും ഇടയിൽ ആവണം')
         else:
             ctx.voice_state.volume = volume / 100
-            await ctx.send('വോളിയം {} മാറ്റിയിട്ടുണ്ട് സുഹൃത്തേ%'.format(volume))
+            await ctx.send('വോളിയം {} % ആക്കിയിട്ടുണ്ട് സുഹൃത്തേ'.format(volume))
 
     @commands.command(name='now', aliases=['current', 'playing'])
     async def _now(self, ctx: commands.Context):
@@ -373,7 +373,7 @@ class Music(commands.Cog):
 
         await ctx.send(embed=ctx.voice_state.current.create_embed())
 
-    @commands.command(name='pause')
+    @commands.command(name='pause'  )
     @commands.has_permissions(manage_guild=True)
     async def _pause(self, ctx: commands.Context):
         """Pauses the currently playing song."""
@@ -507,14 +507,7 @@ class Music(commands.Cog):
                     raise commands.CommandError('പ്ലേയ് കു ശേഷം പാട്ടിന്റെ പേരോ ലിങ്കോ ഒന്നു കൊടുക്കണേ സുഹൃത്തേ')
                 
                 switcher = { 
-                    '1': "https://www.youtube.com/watch?v=x1cq1dDpKZM&list=RDx1cq1dDpKZM&index=1&ab_channel=Millenniumcomedy", 
-                    '2': "https://www.youtube.com/watch?v=FPXOdrhBN2Q&list=RDx1cq1dDpKZM&index=2&ab_channel=Millenniumcomedy", 
-                    '3': "https://www.youtube.com/watch?v=xUNg_6kxGT8&list=RDx1cq1dDpKZM&index=3&ab_channel=SudhiRavi",
-                    '4': "https://www.youtube.com/watch?v=lpwvUVibs80&list=RDx1cq1dDpKZM&index=4&ab_channel=RakeshKrishna",
-                    '5': "https://www.youtube.com/watch?v=BTMRXYurVB4&list=RDx1cq1dDpKZM&index=5&ab_channel=FreddyCs",
-                    '6': "https://www.youtube.com/watch?v=h3kCOleQblw&list=RDx1cq1dDpKZM&index=6&ab_channel=ambalapuzhakannan",
-                    '7': "https://www.youtube.com/watch?v=KoizNlkPZgI&list=RDx1cq1dDpKZM&index=7&ab_channel=RenyAdoor",
-                    '8': "https://www.youtube.com/watch?v=vIIxK87CQUg&list=RDx1cq1dDpKZM&index=8&ab_channel=CINEMAWORLD"
+                    '1': "https://www.youtube.com/watch?v=TNNfZxchmoc&ab_channel=MollywoodClubRemix"
                     } 
                 
                 search = switcher.get(search, search) 

@@ -215,7 +215,7 @@ class VoiceState:
         self.songs = SongQueue()
 
         self._loop = False
-        self._volume = .05
+        self._volume = 1.00
         self.skip_votes = set()
 
         self.audio_player = bot.loop.create_task(self.audio_player_task())

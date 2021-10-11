@@ -1,4 +1,4 @@
 discord.py
 pynacl
-youtube-dl
+youtube_dl
 ffmpeg
